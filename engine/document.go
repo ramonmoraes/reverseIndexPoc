@@ -1,4 +1,4 @@
-package reverseindex
+package engine
 
 import (
 	"fmt"
