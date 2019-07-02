@@ -12,7 +12,7 @@ func tokenizer(input string) []token {
 	for _, word := range spacelessInput {
 		if len(word) > 3 {
 			normalized := normalizeInput(word)
-			output = append(output, token(word))
+			output = append(output, token(normalized))
 		}
 	}
 
