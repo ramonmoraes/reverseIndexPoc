@@ -1,23 +1,26 @@
 package engine
 
 import (
+	"hash/fnv"
 	"fmt"
 )
 
 type document struct {
 	text string
+	identifier string
 	path documentPath
 }
 
 type documentPath string;
 
-func createDocument(text string) document {
-	doc := document{ text: text }
-	doc.save()
+func createDocument(text string, corpus Corpus) document {
+	doc := document{ text: text, identifier: hash(text)  }
+	corpus.saveDocument(doc)
 	return doc;
 }
 
-func (doc *document) save() {
-	fmt.Println(doc)
-	fmt.Printf("Saving at %s\n", engineFileSystemPath)
+func hash(s string) string {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return fmt.Sprint(h)
 }
