@@ -1,6 +1,15 @@
 package engine
 
+import (
+	"log"
+	"fmt"
+	"encoding/json"
+	"io/ioutil"
+	"path/filepath"
+)
+
 const engineFileSystemPath = ".reverseindex"
+var engineSolidStateIndex = filepath.Join(engineFileSystemPath, "config.json")
 
 type ReverseIndex map[token][]documentPath
 
@@ -11,15 +20,36 @@ type Engine struct {
 
 func CreateEngine() Engine {
 	eng := Engine{
-		ReverseIndex: make(ReverseIndex),
+		ReverseIndex: ReverseIndex{},
 		Corpus: createCorpus(),
 	}
-	eng.loadFS()
+	eng.loadIndexes()
 	return eng
 }
 
-func (eng Engine) loadFS() {
+func (eng Engine) loadIndexes() {
 	createFolder(engineFileSystemPath)
+	file, err := ioutil.ReadFile(engineSolidStateIndex)
+	fmt.Println("Loading indexes...")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.Unmarshal([]byte(file), &eng.ReverseIndex)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (eng Engine) DumpIndex() {
+	file, err := json.MarshalIndent(eng.ReverseIndex, "", " ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	
+	err = ioutil.WriteFile(engineSolidStateIndex, file, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func (eng Engine) Index(input string) {
