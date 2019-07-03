@@ -15,7 +15,7 @@ type documentPath string;
 
 func createDocument(text string, corpus Corpus) document {
 	doc := document{ text: text, identifier: hash(text)  }
-	corpus.saveDocument(doc)
+	doc.path = documentPath(corpus.saveDocument(doc))
 	return doc;
 }
 
