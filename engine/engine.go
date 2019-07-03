@@ -3,6 +3,7 @@ package engine
 import (
 	"log"
 	"fmt"
+	"os"
 	"encoding/json"
 	"io/ioutil"
 	"path/filepath"
@@ -31,9 +32,14 @@ func (eng Engine) loadIndexes() {
 	createFolder(engineFileSystemPath)
 	file, err := ioutil.ReadFile(engineSolidStateIndex)
 	fmt.Println("Loading indexes...")
-	if err != nil {
+	
+	if os.IsNotExist(err) {
+		fmt.Println("Indexes not found");
+		return
+	} else if err != nil {
 		log.Fatal(err)
 	}
+	
 	err = json.Unmarshal([]byte(file), &eng.ReverseIndex)
 	if err != nil {
 		log.Fatal(err)
