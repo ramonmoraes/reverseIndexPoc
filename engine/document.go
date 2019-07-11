@@ -1,26 +1,25 @@
 package engine
 
 import (
-	"hash/fnv"
+	"crypto/sha1"
 	"fmt"
 )
 
 type document struct {
-	text string
+	text       string
 	identifier string
-	path documentPath
+	path       string
 }
 
-type documentPath string;
-
 func createDocument(text string, corpus Corpus) document {
-	doc := document{ text: text, identifier: hash(text)  }
-	doc.path = documentPath(corpus.saveDocument(doc))
-	return doc;
+	doc := document{text: text, identifier: hash(text)}
+	doc.path = corpus.saveDocument(doc)
+	return doc
 }
 
 func hash(s string) string {
-	h := fnv.New32a()
+	h := sha1.New()
 	h.Write([]byte(s))
-	return fmt.Sprint(h)
+	sum := h.Sum(nil)
+	return fmt.Sprintf("%x", sum)
 }
