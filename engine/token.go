@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -22,6 +23,7 @@ func tokenizer(input string) []token {
 func normalizeInput(input string) string {
 	normalized := strings.TrimSpace(input)
 	normalized = strings.ToLower(normalized)
+	normalized = regexp.MustCompile("\n|\t|\r|[^a-zAz]").ReplaceAllString(normalized, "")
 
 	sufixs := []string{"ndo", "nda", "ing", "'ll", "n't", "a", "o"}
 	for _, sufix := range sufixs {
