@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-type token string;
+type token string
 
 func tokenizer(input string) []token {
 	output := []token{}
@@ -22,11 +22,11 @@ func tokenizer(input string) []token {
 func normalizeInput(input string) string {
 	normalized := strings.TrimSpace(input)
 	normalized = strings.ToLower(normalized)
-	
-	sufixs := []string{"ndo", "nda", "ing","'ll", "n't", "a", "o"}
-	for _, sufix:= range(sufixs) {
+
+	sufixs := []string{"ndo", "nda", "ing", "'ll", "n't", "a", "o"}
+	for _, sufix := range sufixs {
 		unSufixed := strings.TrimSuffix(normalized, sufix)
-		if len(unSufixed) >=2 {
+		if len(unSufixed) >= 2 {
 			normalized = unSufixed
 		}
 	}
