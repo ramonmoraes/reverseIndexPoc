@@ -8,14 +8,12 @@ import (
 type document struct {
 	text       string
 	identifier string
-	path       documentPath
+	path       string
 }
-
-type documentPath string
 
 func createDocument(text string, corpus Corpus) document {
 	doc := document{text: text, identifier: hash(text)}
-	doc.path = documentPath(corpus.saveDocument(doc))
+	doc.path = corpus.saveDocument(doc)
 	return doc
 }
 
