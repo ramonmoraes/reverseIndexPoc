@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"path/filepath"
@@ -20,7 +19,6 @@ func createCorpus() Corpus {
 }
 
 func (cor *Corpus) saveDocument(doc document) string {
-	fmt.Println(engineDocumentsPath)
 	docPath := filepath.Join(engineDocumentsPath, doc.identifier+engineDocumentSuffix)
 	err := ioutil.WriteFile(docPath, []byte(doc.text), 0644)
 	if err != nil {
