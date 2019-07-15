@@ -12,7 +12,8 @@ func tokenizer(input string) []token {
 	spacelessInput := strings.Split(input, " ")
 	for _, word := range spacelessInput {
 		if len(word) > 3 {
-			normalized := normalizeInput(word)
+			normalized := normalizeInput(word) //
+			// normalized := strings.TrimSpace(word) // Swap normalize
 			output = append(output, token(normalized))
 		}
 	}
